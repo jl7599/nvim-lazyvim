@@ -1,0 +1,3 @@
+-- 键位：先完全使用 LazyVim 原生默认（<leader> = 空格，<localleader> = \）
+-- 查看键位：<leader>?（which-key）或 https://www.lazyvim.org/keymaps
+-- 想加回旧习惯时，见 README「旧键位对照」。
