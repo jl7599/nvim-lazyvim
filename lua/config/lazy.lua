@@ -8,7 +8,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.python" },     -- pyright + ruff
     { import = "lazyvim.plugins.extras.lang.typescript" }, -- vtsls（vue 依赖它）
     { import = "lazyvim.plugins.extras.lang.vue" },
-    { import = "lazyvim.plugins.extras.lang.go" },         -- gopls
+    -- { import = "lazyvim.plugins.extras.lang.go" },         -- gopls（暂时不需要）
     { import = "lazyvim.plugins.extras.lang.markdown" },
 
     -- 自定义插件（lua/plugins/*.lua）
