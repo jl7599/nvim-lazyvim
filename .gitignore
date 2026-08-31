@@ -1,3 +1,5 @@
 # 机器本地覆盖（不入库）
 lua/config/local.lua
+# LazyVim 运行时状态（每台机器各自生成）
+lazyvim.json
 .DS_Store
