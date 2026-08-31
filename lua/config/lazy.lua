@@ -18,7 +18,7 @@ require("lazy").setup({
     lazy = false,  -- 自定义插件默认启动时加载
     version = false, -- 始终使用最新 commit
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "gruvbox-material", "habamax" } }, -- 首个即默认主题，首次安装时确保可用
   checker = { enabled = false }, -- 不自动检查更新，手动 :Lazy update
   performance = {
     cache = { enabled = true },

@@ -1,7 +1,16 @@
 # nvim-lazyvim
 
 基于 [LazyVim](https://www.lazyvim.org) 的 Neovim 配置，跨平台（macOS / Ubuntu / WSL）统一体验。
-替代旧的手写配置（`config/nvim`）：插件配置交给 LazyVim 维护，本仓库只保留个人差异与安装脚本。
+插件管理交给 LazyVim / lazy.nvim，本仓库只保留个人差异（主题、缩进、ruff、机器本地覆盖）与安装脚本。
+
+## 特性一览
+
+- 主题：gruvbox-material（hard / medium / soft 三档背景）
+- 语言支持：Python、TypeScript、Vue、Markdown（go 已注释，按需开启）
+- LSP：Mason 首次打开文件自动安装，无需手动装
+- 缩进：全局 2 空格，Python / SQL 自动切 4 空格
+- ruff：统一使用仓库内 `ruff.toml`，跨机器一致
+- Python：优先项目 `.venv`，回退系统 python3（uv 工作流友好）
 
 ## 新机器快速开始
 
@@ -26,12 +35,13 @@ nvim-lazyvim/
 ├── lua/
 │   ├── config/
 │   │   ├── lazy.lua          # LazyVim + extras + 自定义插件
-│   │   ├── options.lua       # 全局选项
+│   │   ├── options.lua       # 全局选项（缩进等）
 │   │   ├── keymaps.lua       # 键位（默认用 LazyVim 原生）
 │   │   ├── autocmds.lua      # 自动命令
 │   │   ├── machine.lua       # 机器相关（python3 解析）
 │   │   └── local.example.lua # 机器本地覆盖模板
 │   └── plugins/
+│       ├── colorscheme.lua   # 主题：gruvbox-material
 │       └── python.lua        # ruff LSP 指向仓库内 ruff.toml
 └── scripts/
     ├── setup.sh              # 入口：自动识别 OS
@@ -46,13 +56,15 @@ nvim-lazyvim/
 | `lang.python` | pyright + ruff（保留原有 ruff 工作流） |
 | `lang.typescript` | vtsls |
 | `lang.vue` | Vue 语言服务（依赖 typescript） |
-| `lang.go` | gopls |
 | `lang.markdown` | Markdown |
+
+> `lang.go`（gopls）已在 `lua/config/lazy.lua` 中注释，需要时去掉注释即可。
 
 增删用 `:LazyExtras`，或直接改 `lua/config/lazy.lua`。
 
 ## 个人定制说明
 
+- **主题**：gruvbox-material，配置见 `lua/plugins/colorscheme.lua`。
 - **ruff**：`ruff.toml` 在仓库根目录（继承自原 `~/.config/python/ruff.toml`），`lua/plugins/python.lua` 让 ruff LSP 指向它，跨机器一致。
 - **缩进**：全局 2 空格；Python/SQL 自动切 4 空格（`options.lua`）。
 - **机器本地覆盖**：复制 `lua/config/local.example.lua` 为 `lua/config/local.lua`（已 gitignore），放某台机器专用配置。
@@ -80,19 +92,20 @@ nvim-lazyvim/
 
 ## 主题
 
-默认 tokyonight。想换回 gruvbox-material，新建 `lua/plugins/colorscheme.lua`：
+默认 **gruvbox-material**（`lua/plugins/colorscheme.lua`）。
 
-```lua
-return {
-  { "sainnhe/gruvbox-material", priority = 1000, config = function()
-    vim.cmd.colorscheme("gruvbox-material")
-  end },
-}
-```
+- 背景三档：`hard` / `medium` / `soft`，改 `vim.g.gruvbox_material_background` 即可（默认 `medium`）
+- 更多选项（状态栏 / 浮窗风格等）见 <https://github.com/sainnhe/gruvbox-material>
+
+想换回 tokyonight 或其它主题：
+
+1. 删除或注释 `lua/plugins/colorscheme.lua` 中的 gruvbox-material（LazyVim 默认自带 tokyonight，删掉即回退）
+2. 把 `lua/config/lazy.lua` 里 `install.colorscheme` 的第一项改回 `"tokyonight"`
 
 ## 日常维护
 
 - 更新插件：`:Lazy update`（更新后提交 `lazy-lock.json`）
+- 新增插件：在 `lua/plugins/` 新建 `xxx.lua`，重启后自动安装并写入锁文件
 - 安装新语言支持：`:LazyExtras` 勾选对应 extra
 - 卸载重装：删除 `~/.config/nvim`、`~/.local/share/nvim`、`~/.local/state/nvim` 后重新 clone
 
