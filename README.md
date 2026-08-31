@@ -9,7 +9,7 @@
 - 语言支持：Python、TypeScript、Vue、Markdown（go 已注释，按需开启）
 - LSP：Mason 首次打开文件自动安装，无需手动装
 - 缩进：全局 2 空格，Python / SQL 自动切 4 空格
-- ruff：统一使用仓库内 `ruff.toml`，跨机器一致
+- ruff：统一使用仓库内 `ruff.toml`，保存 `.py` 时自动修复 lint
 - Python：优先项目 `.venv`，回退系统 python3（uv 工作流友好）
 
 ## 新机器快速开始
@@ -66,6 +66,7 @@ nvim-lazyvim/
 
 - **主题**：gruvbox-material，配置见 `lua/plugins/colorscheme.lua`。
 - **ruff**：`ruff.toml` 在仓库根目录（继承自原 `~/.config/python/ruff.toml`），`lua/plugins/python.lua` 让 ruff LSP 指向它，跨机器一致。
+- **Python 保存自动修复**：保存 `.py` 时自动执行 ruff 的 lint 修复（基于 ruff LSP 的 `Fix all`，见 `lua/config/autocmds.lua`），格式化仍由 LazyVim 的 format-on-save 负责。
 - **缩进**：全局 2 空格；Python/SQL 自动切 4 空格（`options.lua`）。
 - **机器本地覆盖**：复制 `lua/config/local.example.lua` 为 `lua/config/local.lua`（已 gitignore），放某台机器专用配置。
 - **python3 解释器**：`lua/config/machine.lua` 优先项目 `.venv/bin/python`，回退系统 python3。
